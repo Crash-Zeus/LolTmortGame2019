@@ -1,8 +1,10 @@
 """
 Work on python 3.6
 """
+# -*- coding: utf-8 -*-
 import discord
 import sys
+import json
 import os
 import random
 import asyncio
@@ -15,12 +17,10 @@ bot = commands.Bot(command_prefix='²')
 
 os.system('setterm -cursor off')
 
-
-# Status du bot
 @bot.event
 async def on_ready():
     await bot.change_presence(
-        status=discord.Status.online, activity=discord.Game(name='be a bot')
+        status=discord.Status.online, activity=discord.Game(name='voler des bot')
         )
     print('Bot {0.user} online'.format(bot))
     print('<-------------->')
@@ -30,9 +30,35 @@ async def on_ready():
 async def info(ctx):
     embed = discord.Embed(
         title="Voldebot", description="Wallah t'es mort frère <:innocent:625807221250326528>",
-        color=0xeee657
+        color=0xeee657, inline=False
         )
+    embed.add_field(name="Commandes", value="²score, ²mort [pseudo], ²info", inline=False)
+    embed.add_field(name="Pseudo des joueur reconnue par le bot", value="crash, fred, tsuna, easy, iruhn, shiyu", inline=False)
     await ctx.send(embed=embed)
+
+@bot.command()
+async def score(ctx):
+    with open("score.json", "r") as json_data:
+        data_dict = json.load(json_data)
+    score = str(data_dict).replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
+    score = discord.Embed(
+        title="Score des morts", description=score,
+        color=0xFF0000
+    )
+    await ctx.send(embed=score)
+
+@bot.command()
+async def mort(ctx, player):
+     fichier = 'score.json'
+     with open(fichier, 'r') as file:
+        json_data = json.load(file)
+     for item in json_data:
+              if item[player]:
+               nbrMort = int(item[player]) + int(1)
+               item[player] = nbrMort
+     with open(fichier, 'w') as file:
+        json.dump(json_data, file, indent=2)
+     await ctx.send(player + " est mort. Score de " + player + " : " + str(item[player]))
 
 @bot.command()
 async def loltmort(ctx):
