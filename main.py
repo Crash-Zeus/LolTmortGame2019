@@ -1,6 +1,3 @@
-"""
-Work on python 3.6
-"""
 # -*- coding: utf-8 -*-
 import discord
 import sys
@@ -12,18 +9,16 @@ from discord.ext import commands
 
 
 client = discord.Client()
-TOKEN = ""
+TOKEN = "---"
 bot = commands.Bot(command_prefix='²')
-
-os.system('setterm -cursor off')
+fichier = 'score.json'
 
 @bot.event
 async def on_ready():
     await bot.change_presence(
         status=discord.Status.online, activity=discord.Game(name='voler des bot')
         )
-    print('Bot {0.user} online'.format(bot))
-    print('<-------------->')
+    print('Bot {0.user} online'.format(bot)+"\n<-------------->")
 
 
 @bot.command()
@@ -32,24 +27,32 @@ async def info(ctx):
         title="Voldebot", description="Wallah t'es mort frère <:innocent:625807221250326528>",
         color=0xeee657, inline=False
         )
-    embed.add_field(name="Commandes", value="²score, ²mort [pseudo], ²info", inline=False)
-    embed.add_field(name="Pseudo des joueur reconnue par le bot", value="crash, fred, tsuna, easy, iruhn, shiyu", inline=False)
+    embed.add_field(
+        name="Commandes",
+        value="²loltmort, ²score, ²mort [pseudo], ²info, ²horaire",
+        inline=False
+        )
+    embed.add_field(
+        name="Pseudo des joueur reconnue par le bot",
+        value="crash, fred, tsuna, easy, iruhn, shiyu",
+        inline=False
+        )
     await ctx.send(embed=embed)
+
 
 @bot.command()
 async def score(ctx):
     with open("score.json", "r") as json_data:
         data_dict = json.load(json_data)
-    score = str(data_dict).replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
+    scores = str(data_dict).replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
     score = discord.Embed(
-        title="Score des morts", description=score,
+        title="Score des morts", description=scores,
         color=0xFF0000
     )
     await ctx.send(embed=score)
 
 @bot.command()
 async def mort(ctx, player):
-     fichier = 'score.json'
      with open(fichier, 'r') as file:
         json_data = json.load(file)
      for item in json_data:
@@ -59,6 +62,10 @@ async def mort(ctx, player):
      with open(fichier, 'w') as file:
         json.dump(json_data, file, indent=2)
      await ctx.send(player + " est mort. Score de " + player + " : " + str(item[player]))
+
+@bot.command()
+async def horaire(ctx):
+    await ctx.send("http://image.noelshack.com/fichiers/2019/39/2/1569325362-unknown.png")
 
 @bot.command()
 async def loltmort(ctx):
@@ -96,7 +103,7 @@ async def loltmort(ctx):
              "Ne pas frapper les mobs de face",
              "Ne pas avoir droit aux soins  pendant 5 combats",
              "Pour un combat : Vous devez passer votre tour dès que votre timer atteint les 10 secondes restantes.",
-             "Taper le mobs comme ça : \n"
+             "Taper le mobs comme ça :\n"
              "https://media.discordapp.net/attachments/625782166822977546/625789769443442698/Screenshot_67.png?width=149&height=145",
              "[Défi] Échecs : Chaque joueur est attribué une pièce des échecs de façon aléatoire, sa range est déterminée par celle de la pièce",
              "Devenir la poubelle de la team pendant toute la durée de la session",
@@ -114,6 +121,7 @@ async def loltmort(ctx):
              "Défis pour iop : Vous ne devez utiliser qu'un seul sort de chaque branche élémentaire",
              "Défi pour Xélor : Vous n'avez pas le droit de jouer votre Cadran.",
              "Défi pour Zobal : Vous n'avez pas le droit de jouer de masques",
+             "Défi pour ougi : Vous n'avez pas le droit d'utiliser proie et  le chienchien pendant le combat",
              "Défi global : Pas le droit d'utiliser les mécaniques de sa classe.",
              "Pour un Combat : tous vos sorts offensifs lancés doivent être précédés par un 'DEUS VULT!' envoyé dans le tchat.",
              "Crossover : Vous n'avez le droit de taper un ennemie que si aucun ennemie ou allié n'est en ligne de votre cible.",
