@@ -13,10 +13,9 @@ import youtube_dl
 from discord.ext import commands
 from discord.voice_client import VoiceClient
 
-from src.cmd import *
-from src.music import YTDLSource
+import sources
 
 try:
-    bot.run(TOKEN)
+    sources.bot.run(sources.TOKEN)
 except KeyboardInterrupt:
     print("\n\n************************************\n\n")
