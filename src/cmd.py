@@ -49,17 +49,13 @@ async def on_ready():
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(
-        title="Voldebot", description="Wallah t'es mort frère <:innocent:625807221250326528>",
+        title="Voldebot", description="Bot développé par Crash à l'occasion du LOLTMORTGAME 2019, français corrigé par Fred",
         color=0xeee657, inline=False
     )
+    embed.set_image(url="https://i.pinimg.com/originals/73/c1/e6/73c1e6eefc15fcc928d111d3e87f19f8.jpg")
     embed.add_field(
         name="Commandes",
-        value="²loltmort, ²score, ²mort [pseudo], ²info, ²horaire, ²decide, ²sur, ²musique",
-        inline=False
-    )
-    embed.add_field(
-        name="Pseudo des joueur reconnue par le bot",
-        value="crash, fred, tsuna, easy, iruhn, shiyu, ruby",
+        value="²loltmort, ²score, ²mort pseudo_du_joueur, ²info, ²horaire, ²decide, ²sur, ²jadorelamusique, ²addplayer pseudo_du_joueur, ²kickplayer pseudo_du_joueur",
         inline=False
     )
     await ctx.send(embed=embed)
@@ -67,7 +63,7 @@ async def info(ctx):
 
 @bot.command()
 async def score(ctx):
-    with open("score.json", "r") as json_data:
+    with open(fichier, "r") as json_data:
         data_dict = json.load(json_data)
     scores = str(data_dict).replace("[", " ").replace("]", " ").replace(
         "{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
@@ -85,16 +81,56 @@ async def score(ctx):
 
 
 @bot.command()
+async def addplayer(ctx, player):
+    with open(fichier, "r") as json_data:
+        data = json.load(json_data)
+    data[player] = "0"
+    with open(fichier, 'w') as file:
+        json.dump(data, file, indent=2)
+    await ctx.send(player + " ajouter. Score de " + player + " : 0")
+    print("add " + player + " to game")
+
+
+@bot.command()
+async def kickplayer(ctx, player):
+    with open(fichier, 'r') as file:
+        data = json.load(file)
+    del data[player]
+    with open(fichier, 'w') as file:
+        json.dump(data, file, indent=2)
+    await ctx.send(player + " supprimer")
+    print("delete " + player + " from game")
+
+
+@bot.command()
 async def mort(ctx, player):
     with open(fichier, 'r') as file:
         json_data = json.load(file)
-    for item in json_data:
-        if item[player]:
-            nbrMort = int(item[player]) + int(1)
-            item[player] = nbrMort
+    nbrMort = int(json_data[player]) + int(1)
+    json_data[player] = nbrMort
     with open(fichier, 'w') as file:
         json.dump(json_data, file, indent=2)
-    await ctx.send(player + " est mort. Score de " + player + " : " + str(item[player]))
+    await ctx.send(player + " est mort. Score de " + player + " : " + str(json_data[player]))
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    player = await YTDLSource.from_url("https://www.youtube.com/watch?v=InBZINtS0ec", loop=bot.loop)
+    ctx.voice_client.play(player, after=lambda e: print(
+        'Player error: %s' % e) if e else None)
+    print('{}'.format(player.title))
+    while ctx.voice_client.is_playing():
+        await asyncio.sleep(0.5)
+    await bot.voice_clients[0].disconnect()
+
+
+@bot.command()
+async def retard(ctx, player):
+    with open(fichier, 'r') as file:
+        json_data = json.load(file)
+    scoreAjout = int(json_data[player]) + int(10)
+    json_data[player] = scoreAjout
+    with open(fichier, 'w') as file:
+        json.dump(json_data, file, indent=2)
+    await ctx.send(player + " à été absent ou en retard. Score de " + player + " : " + str(json_data[player]))
 
 
 @bot.command()
@@ -103,9 +139,21 @@ async def horaire(ctx):
     await ctx.send("**Les horaire fournis sont une base pour pouvoir monter un event de manière cohérent, veuillez PREVENIR au plus tôt si il y a des changements a faire ou des évenement spéciaux (absence)**")
     await ctx.send("**Pour toute abscence non prévenue le joueur se verras attribuer +10 à sont score, vous comprennez qu'une abscence oblige tout le monde à ne pas pouvoir jouer.**")
 
+@bot.command()
+async def addRSA(ctx):
+    await ctx.send("http://image.noelshack.com/fichiers/2017/30/4/1501150374-1455211242-mario-non.png")
 
 @bot.command()
-async def musique(ctx):
+async def suicide(ctx):
+    await ctx.send("https://starecat.com/content/wp-content/uploads/man-su-looking-at-suicide-instead-of-success-red-dress-meme.jpg")
+
+@bot.command()
+async def wakfu(ctx):
+    await ctx.send("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5OltV8auJDomF4BQ8O9jGk30fJojXwqpwDprCP6x7KFbQYlDR")
+
+
+@bot.command()
+async def jadorelamusique(ctx):
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
     async with ctx.typing():
@@ -147,19 +195,6 @@ async def sur(ctx):
     while ctx.voice_client.is_playing():
         await asyncio.sleep(0.5)
     await bot.voice_clients[0].disconnect()
-
-
-@bot.command()
-async def retard(ctx, player):
-    with open(fichier, 'r') as file:
-        json_data = json.load(file)
-    for item in json_data:
-        if item[player]:
-            scoreAjout = int(item[player]) + int(10)
-        item[player] = scoreAjout
-    with open(fichier, 'w') as file:
-        json.dump(json_data, file, indent=2)
-    await ctx.send(player + " à été absent ou en retard. Score de " + player + " : " + str(item[player]))
 
 
 @bot.command()
@@ -226,6 +261,16 @@ async def loltmort(ctx):
              "Demander 100 kamas pour le Zaap (n'est validé que si vous les obtenez)",
              "KARAOKE !"
              ]
+    await ctx.send("**Je choisi mon gage...**")
+    channel = ctx.message.author.voice.channel
+    vc = await channel.connect()
+    player = await YTDLSource.from_url("https://www.youtube.com/watch?v=o6RQuIbzwJk", loop=bot.loop)
+    ctx.voice_client.play(player, after=lambda e: print(
+        'Player error: %s' % e) if e else None)
+    print('{}'.format(player.title))
+    while ctx.voice_client.is_playing():
+        await asyncio.sleep(0.5)
+    await bot.voice_clients[0].disconnect()
     choose = random.choice(
         gages)+" ! Have Fun with LOLTMORTGAME <:innocent:625807221250326528>"
     await ctx.send(str(choose))
