@@ -1,13 +1,22 @@
 # FICHIER COMMANDES BOT
-import discord, sys, json, os, random, asyncio, youtube_dl
-from src.music import YTDLSource
+import asyncio
+import json
+import os
+import random
+import sys
+
+import discord
+import youtube_dl
 from discord.ext import commands
-from discord.voice_client import VoiceClient 
+from discord.voice_client import VoiceClient
+
+from src.music import YTDLSource
 
 client = discord.Client()
-TOKEN = ""
+TOKEN = "NjI1NjIzOTU0NDQyMTU4MDkw.XYkxbg.VmKigbbyDKcVJnKV2MH6akI5JEE"
 bot = commands.Bot(command_prefix='²')
 fichier = 'score.json'
+
 
 # @bot.command()
 # # Command de clear channel posté
@@ -31,8 +40,9 @@ fichier = 'score.json'
 @bot.event
 async def on_ready():
     await bot.change_presence(
-        status=discord.Status.online, activity=discord.Game(name='voler des bot')
-        )
+        status=discord.Status.online, activity=discord.Game(
+            name='voler des bot')
+    )
     print('Bot {0.user} online'.format(bot)+"\n<-------------->")
 
 
@@ -41,17 +51,17 @@ async def info(ctx):
     embed = discord.Embed(
         title="Voldebot", description="Wallah t'es mort frère <:innocent:625807221250326528>",
         color=0xeee657, inline=False
-        )
+    )
     embed.add_field(
         name="Commandes",
         value="²loltmort, ²score, ²mort [pseudo], ²info, ²horaire, ²decide, ²sur, ²musique",
         inline=False
-        )
+    )
     embed.add_field(
         name="Pseudo des joueur reconnue par le bot",
         value="crash, fred, tsuna, easy, iruhn, shiyu, ruby",
         inline=False
-        )
+    )
     await ctx.send(embed=embed)
 
 
@@ -59,7 +69,8 @@ async def info(ctx):
 async def score(ctx):
     with open("score.json", "r") as json_data:
         data_dict = json.load(json_data)
-    scores = str(data_dict).replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
+    scores = str(data_dict).replace("[", " ").replace("]", " ").replace(
+        "{", " ").replace("}", " ").replace("'", " ").replace(",", "\n")
     scoreEmbed = discord.Embed(
         title="Premier gage :",
         description="Easy - Fail challenge facile",
@@ -72,17 +83,19 @@ async def score(ctx):
     )
     await ctx.send(embed=scoreEmbed)
 
+
 @bot.command()
 async def mort(ctx, player):
-     with open(fichier, 'r') as file:
+    with open(fichier, 'r') as file:
         json_data = json.load(file)
-     for item in json_data:
-              if item[player]:
-               nbrMort = int(item[player]) + int(1)
-               item[player] = nbrMort
-     with open(fichier, 'w') as file:
+    for item in json_data:
+        if item[player]:
+            nbrMort = int(item[player]) + int(1)
+            item[player] = nbrMort
+    with open(fichier, 'w') as file:
         json.dump(json_data, file, indent=2)
-     await ctx.send(player + " est mort. Score de " + player + " : " + str(item[player]))
+    await ctx.send(player + " est mort. Score de " + player + " : " + str(item[player]))
+
 
 @bot.command()
 async def horaire(ctx):
@@ -90,18 +103,21 @@ async def horaire(ctx):
     await ctx.send("**Les horaire fournis sont une base pour pouvoir monter un event de manière cohérent, veuillez PREVENIR au plus tôt si il y a des changements a faire ou des évenement spéciaux (absence)**")
     await ctx.send("**Pour toute abscence non prévenue le joueur se verras attribuer +10 à sont score, vous comprennez qu'une abscence oblige tout le monde à ne pas pouvoir jouer.**")
 
+
 @bot.command()
 async def musique(ctx):
     channel = ctx.message.author.voice.channel
     vc = await channel.connect()
     async with ctx.typing():
         player = await YTDLSource.from_url("https://www.youtube.com/watch?v=NcKAdFENqig", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+        ctx.voice_client.play(player, after=lambda e: print(
+            'Player error: %s' % e) if e else None)
     await ctx.send('{}'.format(player.title))
     print('{}'.format(player.title))
     while ctx.voice_client.is_playing():
         await asyncio.sleep(0.5)
     await bot.voice_clients[0].disconnect()
+
 
 @bot.command()
 async def decide(ctx):
@@ -109,12 +125,14 @@ async def decide(ctx):
     vc = await channel.connect()
     async with ctx.typing():
         player = await YTDLSource.from_url("https://www.youtube.com/watch?v=N_VUkp_DmA4", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+        ctx.voice_client.play(player, after=lambda e: print(
+            'Player error: %s' % e) if e else None)
     await ctx.send('{}'.format(player.title))
     print("C PAS TOA QUI DECIDE")
     while ctx.voice_client.is_playing():
         await asyncio.sleep(0.5)
     await bot.voice_clients[0].disconnect()
+
 
 @bot.command()
 async def sur(ctx):
@@ -122,24 +140,27 @@ async def sur(ctx):
     vc = await channel.connect()
     async with ctx.typing():
         player = await YTDLSource.from_url("https://www.youtube.com/watch?v=-hUyGo2y-pc", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+        ctx.voice_client.play(player, after=lambda e: print(
+            'Player error: %s' % e) if e else None)
     await ctx.send('{}'.format(player.title))
     print("MAIS CT SUR PTN")
     while ctx.voice_client.is_playing():
         await asyncio.sleep(0.5)
     await bot.voice_clients[0].disconnect()
 
+
 @bot.command()
 async def retard(ctx, player):
     with open(fichier, 'r') as file:
         json_data = json.load(file)
     for item in json_data:
-            if item[player]:
-                scoreAjout = int(item[player]) + int(10)
-            item[player] = scoreAjout
+        if item[player]:
+            scoreAjout = int(item[player]) + int(10)
+        item[player] = scoreAjout
     with open(fichier, 'w') as file:
         json.dump(json_data, file, indent=2)
     await ctx.send(player + " à été absent ou en retard. Score de " + player + " : " + str(item[player]))
+
 
 @bot.command()
 async def loltmort(ctx):
@@ -205,5 +226,6 @@ async def loltmort(ctx):
              "Demander 100 kamas pour le Zaap (n'est validé que si vous les obtenez)",
              "KARAOKE !"
              ]
-    choose = random.choice(gages)+" ! Have Fun with LOLTMORTGAME <:innocent:625807221250326528>"
+    choose = random.choice(
+        gages)+" ! Have Fun with LOLTMORTGAME <:innocent:625807221250326528>"
     await ctx.send(str(choose))

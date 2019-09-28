@@ -3,7 +3,6 @@ import youtube_dl
 import asyncio
 import discord
 
-# Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 
@@ -18,7 +17,7 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+    'source_address': '0.0.0.0'
 }
 
 ffmpeg_options = {
