@@ -13,7 +13,7 @@ from discord.voice_client import VoiceClient
 from src.music import YTDLSource
 
 client = discord.Client()
-TOKEN = "NjI1NjIzOTU0NDQyMTU4MDkw.XYkxbg.VmKigbbyDKcVJnKV2MH6akI5JEE"
+TOKEN = ""
 bot = commands.Bot(command_prefix='²')
 fichier = 'score.json'
 
