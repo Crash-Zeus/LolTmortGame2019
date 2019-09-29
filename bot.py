@@ -17,5 +17,6 @@ import sources
 
 try:
     sources.bot.run(sources.TOKEN)
+
 except KeyboardInterrupt:
-    print("\n\n************************************\n\n")
+    sources.bot.logout
