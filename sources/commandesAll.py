@@ -1,4 +1,4 @@
-# FICHIER COMMANDES BOT
+# FICHIER COMMANDES ALL BOT
 import asyncio
 import json
 import os
@@ -17,12 +17,6 @@ TOKEN = ""
 bot = commands.Bot(command_prefix='²')
 fichier = 'score.json'
 
-
-# @bot.command()
-# # Command de clear channel posté
-# # Nbr de message demandé + 1 (commande clear auto delete)
-# async def clear(channel, amout=1):
-#     await channel.channel.purge(limit=amout + 1)
 
 # @bot.command()
 # async def play(ctx, url):
@@ -45,24 +39,38 @@ async def on_ready():
     )
     print('Bot {0.user} online'.format(bot)+"\n<-------------->")
 
+@bot.command()
+async def shana(ctx):
+    message = "**BIP BIP ! **" + "http://image.noelshack.com/fichiers/2019/39/7/1569765622-shana.jpeg"
+    await ctx.send(message)
+
+@bot.command()
+async def fred(ctx):
+    message = "**UP HUPPERMAGE WHEN ?**" + "http://image.noelshack.com/fichiers/2019/39/7/1569766833-fred.jpeg"
+    await ctx.send(message)
 
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(
-        title="Voldebot", description="Bot développé par Crash à l'occasion du LOLTMORTGAME 2019, français corrigé par Fred",
+        title="**Voldebot**", description="Bot développé par Crash à l'occasion du LOLTMORTGAME 2019, français corrigé par Fred",
         color=0xeee657, inline=False
     )
-    embed.set_image(url="https://i.pinimg.com/originals/73/c1/e6/73c1e6eefc15fcc928d111d3e87f19f8.jpg")
     embed.add_field(
-        name="Commandes",
-        value="²loltmort, ²score, ²mort pseudo_du_joueur, ²info, ²horaire, ²decide, ²sur, ²jadorelamusique, ²addplayer pseudo_du_joueur, ²kickplayer pseudo_du_joueur",
+        name="**Commandes all**",
+        value="²loltmort, ²score, ²info, ²horaire, ²decide, ²sur, ²jadorelamusique",
         inline=False
     )
     embed.add_field(
-        name="Pseudo des joueurs reconnu par le bot",
+        name="**Commandes admin seulement (et Crash lul logik)**",
+        value="²clear nbr_messages_clear, ²mort pseudo_du_joueur, ²addplayer pseudo_du_joueur, ²kickplayer pseudo_du_joueur",
+        inline=False
+    )
+    embed.add_field(
+        name="**Pseudo des joueurs reconnu par le bot**",
         value="crash, fred, tsuna, easy, iruhn, shiyu, ruby",
         inline=False
     )
+    embed.set_thumbnail(url="https://i.pinimg.com/originals/73/c1/e6/73c1e6eefc15fcc928d111d3e87f19f8.jpg")
     await ctx.send(embed=embed)
 
 
@@ -84,58 +92,6 @@ async def score(ctx):
     )
     await ctx.send(embed=scoreEmbed)
 
-
-@bot.command()
-async def addplayer(ctx, player):
-    with open(fichier, "r") as json_data:
-        data = json.load(json_data)
-    data[player] = "0"
-    with open(fichier, 'w') as file:
-        json.dump(data, file, indent=2)
-    await ctx.send(player + " ajouter. Score de " + player + " : 0")
-    print("add " + player + " to game")
-
-
-@bot.command()
-async def kickplayer(ctx, player):
-    with open(fichier, 'r') as file:
-        data = json.load(file)
-    del data[player]
-    with open(fichier, 'w') as file:
-        json.dump(data, file, indent=2)
-    await ctx.send(player + " supprimer")
-    print("delete " + player + " from game")
-
-
-@bot.command()
-async def mort(ctx, player):
-    with open(fichier, 'r') as file:
-        json_data = json.load(file)
-    nbrMort = int(json_data[player]) + int(1)
-    json_data[player] = nbrMort
-    with open(fichier, 'w') as file:
-        json.dump(json_data, file, indent=2)
-    await ctx.send(player + " est mort. Score de " + player + " : " + str(json_data[player]))
-    channel = ctx.message.author.voice.channel
-    vc = await channel.connect()
-    player = await YTDLSource.from_url("https://www.youtube.com/watch?v=InBZINtS0ec", loop=bot.loop)
-    ctx.voice_client.play(player, after=lambda e: print(
-        'Player error: %s' % e) if e else None)
-    print('{}'.format(player.title))
-    while ctx.voice_client.is_playing():
-        await asyncio.sleep(0.5)
-    await bot.voice_clients[0].disconnect()
-
-
-@bot.command()
-async def retard(ctx, player):
-    with open(fichier, 'r') as file:
-        json_data = json.load(file)
-    scoreAjout = int(json_data[player]) + int(10)
-    json_data[player] = scoreAjout
-    with open(fichier, 'w') as file:
-        json.dump(json_data, file, indent=2)
-    await ctx.send(player + " à été absent ou en retard. Score de " + player + " : " + str(json_data[player]))
 
 
 @bot.command()
