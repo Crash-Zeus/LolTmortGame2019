@@ -8,6 +8,7 @@ import sys
 import discord
 import youtube_dl
 from discord.ext import commands
+from discord.ext.commands import CommandNotFound
 from discord.voice_client import VoiceClient
 
 from sources.ytbMusic import YTDLSource
@@ -25,6 +26,13 @@ async def on_ready():
             name='voler des bot')
     )
     print('Bot {0.user} online'.format(bot)+"\n<-------------->")
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        return await ctx.send("T ki ? la commande existe pas. <:omegalul:582685706267394051>")
+    raise error
 
 
 @bot.command()
@@ -103,7 +111,11 @@ async def suicide(ctx):
 
 @bot.command()
 async def wakfu(ctx):
-    await ctx.send("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5OltV8auJDomF4BQ8O9jGk30fJojXwqpwDprCP6x7KFbQYlDR")
+    with open('Wakmeme.json') as fp:
+        data = json.load(fp)
+    nbr = random.choice(list(data))
+    meme = data[nbr]
+    await ctx.send(str(meme) + "\n")
 
 
 @bot.command()
@@ -114,59 +126,58 @@ async def horaire(ctx):
 
 # VOCAL
 
-
 @bot.command()
 async def jadorelamusique(ctx):
- if ctx.author.voice:
-    channel = ctx.message.author.voice.channel
-    if ctx.voice_client is None:
-                if ctx.author.voice:
-                    vc = await channel.connect(timeout=600,reconnect=False)
-    async with ctx.typing():
-        player = await YTDLSource.from_url("https://www.youtube.com/watch?v=NcKAdFENqig", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print(
-            'Player error: %s' % e) if e else None)
-    await ctx.send('{}'.format(player.title))
-    print('{}'.format(player.title))
-    while ctx.voice_client.is_playing():
-        await asyncio.sleep(1)
- else:
-    await ctx.send("Vous devez être en vocal pour utiliser cette commande")
+    if ctx.author.voice:
+        channel = ctx.message.author.voice.channel
+        if ctx.voice_client is None:
+            if ctx.author.voice:
+                vc = await channel.connect(timeout=600, reconnect=False)
+        async with ctx.typing():
+            player = await YTDLSource.from_url("https://www.youtube.com/watch?v=NcKAdFENqig", loop=bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print(
+                'Player error: %s' % e) if e else None)
+        await ctx.send('{}'.format(player.title))
+        print('{}'.format(player.title))
+        while ctx.voice_client.is_playing():
+            await asyncio.sleep(1)
+    else:
+        await ctx.send("Vous devez être en vocal pour utiliser cette commande")
 
 
 @bot.command()
 async def decide(ctx):
- if ctx.author.voice:
-    channel = ctx.message.author.voice.channel
-    if ctx.voice_client is None:
-                if ctx.author.voice:
-                    vc = await channel.connect(timeout=600,reconnect=False)
-    async with ctx.typing():
-        player = await YTDLSource.from_url("https://www.youtube.com/watch?v=N_VUkp_DmA4", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print(
-            'Player error: %s' % e) if e else None)
-    await ctx.send('{}'.format(player.title))
-    print('{}'.format(player.title))
-    while ctx.voice_client.is_playing():
-        await asyncio.sleep(1)
- else:
-    await ctx.send("Vous devez être en vocal pour utiliser cette commande")
+    if ctx.author.voice:
+        channel = ctx.message.author.voice.channel
+        if ctx.voice_client is None:
+            if ctx.author.voice:
+                vc = await channel.connect(timeout=600, reconnect=False)
+        async with ctx.typing():
+            player = await YTDLSource.from_url("https://www.youtube.com/watch?v=N_VUkp_DmA4", loop=bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print(
+                'Player error: %s' % e) if e else None)
+        await ctx.send('{}'.format(player.title))
+        print('{}'.format(player.title))
+        while ctx.voice_client.is_playing():
+            await asyncio.sleep(1)
+    else:
+        await ctx.send("Vous devez être en vocal pour utiliser cette commande")
 
 
 @bot.command()
 async def sur(ctx):
- if ctx.author.voice:
-    channel = ctx.message.author.voice.channel
-    if ctx.voice_client is None:
-                if ctx.author.voice:
-                    vc = await channel.connect(timeout=600,reconnect=False)
-    async with ctx.typing():
-        player = await YTDLSource.from_url("https://www.youtube.com/watch?v=-hUyGo2y-pc", loop=bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print(
-            'Player error: %s' % e) if e else None)
-    await ctx.send('{}'.format(player.title))
-    print("MAIS CT SUR PTN")
-    while ctx.voice_client.is_playing():
-        await asyncio.sleep(1)
- else:
-    await ctx.send("Vous devez être en vocal pour utiliser cette commande")
+    if ctx.author.voice:
+        channel = ctx.message.author.voice.channel
+        if ctx.voice_client is None:
+            if ctx.author.voice:
+                vc = await channel.connect(timeout=600, reconnect=False)
+        async with ctx.typing():
+            player = await YTDLSource.from_url("https://www.youtube.com/watch?v=-hUyGo2y-pc", loop=bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print(
+                'Player error: %s' % e) if e else None)
+        await ctx.send('{}'.format(player.title))
+        print("MAIS CT SUR PTN")
+        while ctx.voice_client.is_playing():
+            await asyncio.sleep(1)
+    else:
+        await ctx.send("Vous devez être en vocal pour utiliser cette commande")

@@ -20,7 +20,7 @@ async def clear(channel, amout = 1):
 
 @bot.command()
 @commands.has_any_role("Conseil des Oracles", "Oracle", "Leader", "Nitro Booster", "Légende", "Dev")
-async def addplayer(ctx, player):
+async def addplayer(ctx, player = None):
     if player is None:
         await ctx.send("Pseudo du joueur manquant")
     else:
@@ -35,7 +35,7 @@ async def addplayer(ctx, player):
 
 @bot.command()
 @commands.has_any_role("Conseil des Oracles", "Oracle", "Leader", "Nitro Booster", "Légende", "Dev")
-async def kickplayer(ctx, player):
+async def kickplayer(ctx, player = None):
     if player is None:
         await ctx.send("Pseudo du joueur manquant")
     else:
