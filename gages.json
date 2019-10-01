@@ -33,7 +33,7 @@
   "31": "Ne pas frapper les mobs de face",
   "32": "Ne pas avoir droit aux soins  pendant 5 combats",
   "33": "Pour un combat : Vous devez passer votre tour d\u00e8s que votre timer atteint les 10 secondes restantes.",
-  "34": "Taper le mobs comme \u00e7a :\nhttps://media.discordapp.net/attachments/625782166822977546/625789769443442698/Screenshot_67.png?width=149&height=145",
+  "34": "Taper le mobs comme \u00e7a : \nhttps://media.discordapp.net/attachments/625782166822977546/625789769443442698/Screenshot_67.png?width=149&height=145",
   "35": "Pour un combat : Vous devez mettre de la hardbass sur le bot \u00e0 musique.",
   "36": "[D\u00e9fi] \u00c9checs : Chaque joueur est attribu\u00e9 une pi\u00e8ce des \u00e9checs de fa\u00e7on al\u00e9atoire, sa range est d\u00e9termin\u00e9e par celle de la pi\u00e8ce",
   "37": "Devenir la poubelle de la team pendant toute la dur\u00e9e de la session",
@@ -43,7 +43,7 @@
   "41": "Pour un combat : Vous devez mettre de l'eurobeat sur le bot \u00e0 musique.",
   "42": "Pour un combat : Vous devez mettre de la musique populaire de merde sur le bot \u00e0 musique, tubes de l'\u00e9t\u00e9 recommand\u00e9s.",
   "43": "Pour un combat : Vous devez d\u00e9s\u00e9quiper tout votre \u00e9quipement ormis main droite et secondaire",
-  "44": "D\u00e9fi pour panda uniquement :  porter un ennemi et ne faire que cette action pendant  un combat complet (  interdit de le reposer )",
+  "44": "D\u00e9fi pour panda uniquement : porter un ennemi et ne faire que cette action pendant  un combat complet (  interdit de le reposer )",
   "45": "D\u00e9fi pour un \u00e9liotrope uniquement : vous devez faire en sorte qu'un mob utilise vos portails ( une fois mini )",
   "46": "D\u00e9fi pour sacrieur uniquement : ne pas attaquer avant d'atteindre - de 20% des pv max",
   "47": "D\u00e9fis pour iop : Vous ne devez utiliser qu'un seul sort de chaque branche \u00e9l\u00e9mentaire",
@@ -58,5 +58,13 @@
   "56": "Vous devez crafter 400 kamas \u00e0 partir de minerais de fer.",
   "57": "Pour 5 minutes : Vous devez rester assis.",
   "58": "Demander 100 kamas pour le Zaap (n'est valid\u00e9 que si vous les obtenez)",
-  "59": "KARAOKE !"
+  "59": "KARAOKE ! ",
+  "60": "Barbare : Vous devez infliger des dommages avec une arme au moins une fois par tour.",
+  "61": "CASINO ROYAL : Au prochain combat ayant un challenge \u00e9lementaire : tout les joueurs doivent utilis\u00e9 au moins une action chromatique dans le combat",
+  "62": "\u00c9CONOME : Vous ne pouvez utiliser qu'une seule fois la m\u00eame action (corps \u00e0 corps et sort) dans tout le combat.",
+  "63": "INTOUCHABLE : Vous ne devez jamais subir un seul d\u00e9g\u00e2t de tout le combat.",
+  "64": "MAINS PROPRES : Vous ne devez pas faire de d\u00e9g\u00e2ts directs",
+  "65": "MYSTIQUE : Vous devez utiliser au maximum la moitier de vos pa (si en 6pa, 3 utiliser maximum)",
+  "66": "NI PIOUS NI SOUMIS : Seul les personnage de sexe masculin peuvent achever les ennemies.",
+  "67": "NI PIOUTES NI SOUMISES : Seul les personnage de sexe feminin peuvent achever les ennemies."
 }
