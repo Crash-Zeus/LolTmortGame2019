@@ -32,6 +32,20 @@ async def addplayer(ctx, player = None):
         await ctx.send(player + " ajouter. Score de " + player + " : 0")
         print("add " + player + " to game")
 
+@bot.command()
+@commands.has_any_role("Conseil des Oracles", "Oracle", "Leader", "Nitro Booster", "Légende", "Dev")
+async def addgage(ctx, gage = None):
+    if gage is None:
+        await ctx.send("gage manquant")
+    else:
+        with open("gages.json", "r") as json_data:
+            data = json.load(json_data)
+        nbr = len(data)
+        data[nbr] = str(gage).replace(":", "\u003A")
+        with open("gages.json", 'w') as file:
+            json.dump(data, file, indent=2)
+        await ctx.send("Le gage : **" + f'{gage}' + "** à été ajouter")
+        print("le gage numéro " + str(nbr) + " : "+ gage + " ajouter")
 
 @bot.command()
 @commands.has_any_role("Conseil des Oracles", "Oracle", "Leader", "Nitro Booster", "Légende", "Dev")
@@ -95,6 +109,7 @@ async def stop(ctx):
     else:
         await ctx.send("le bot est déjà déconnecté de tout les salons vocaux")
 
+@addgage.error
 @clear.error
 @kickplayer.error
 @addplayer.error
