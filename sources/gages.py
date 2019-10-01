@@ -43,3 +43,8 @@ async def echecmode(ctx, player = None):
         pion = data[nbr]
         joueur = player
         await ctx.send(f'{joueur} incarne ' + str(pion))
+
+
+@bot.command()
+async def gagelist(ctx):
+    await ctx.send(file=discord.File('gages.json'))
