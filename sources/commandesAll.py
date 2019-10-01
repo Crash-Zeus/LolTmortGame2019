@@ -14,7 +14,7 @@ from discord.voice_client import VoiceClient
 from sources.ytbMusic import YTDLSource
 
 client = discord.Client()
-TOKEN = ""
+TOKEN = "NjI1NjIzOTU0NDQyMTU4MDkw.XZHKxw.U8DmvyFvfiEwuBemUee45vWELnw"
 bot = commands.Bot(command_prefix='²')
 fichier = 'score.json'
 
@@ -43,22 +43,25 @@ async def info(ctx):
     )
     embed.add_field(
         name="**Préfix du bot**",
-        value="Toujours utilisé le préfixe **²** pour appeler une commande de ce bot",
+        value="Toujours utilisé le préfixe **²** pour appeler une commande de ce bot \n La commande gagelist vous renverras le fichier json contenant tout les gages du LOLTMORTGAME \n La commande clean prend automatiquement en compte le message de la commande",
         inline=False
     )
     embed.add_field(
         name="**Commandes all**",
-        value="loltmort \n score \n info \n horaire \n decide \n sur \n jadorelamusique \n echecmode nom_du_joueur \n",
+        value="loltmort \n score \n info \n horaire \n decide \n sur \n jadorelamusique \n echecmode *nom_du_joueur* \n gagelist \n",
         inline=False
     )
     embed.add_field(
-        name="**Commandes admin seulement (et Crash lul logik)**",
-        value="clear nbr_messages_clear \n mort pseudo_du_joueur \n addplayer pseudo_du_joueur \n kickplayer pseudo_du_joueur \n stop \n",
+        name="**Commandes admin seulement (Légende + et Crash lul logik)**",
+        value="clear *nbr_messages_clear* \n mort *pseudo_du_joueur* \n addplayer *pseudo_du_joueur* \n kickplayer *pseudo_du_joueur* \n stop \n addgage \"*gage*\" \n",
         inline=False
     )
+    with open(fichier, "r") as json_data:
+        data_dict = json.load(json_data)
+    perso = list(data_dict)
     embed.add_field(
         name="**Pseudo des joueurs reconnu par le bot**",
-        value="crash, fred, tsuna, easy, iruhn, shiyu",
+        value=str(perso).replace("[", "").replace("]", "").replace("'", ""),
         inline=False
     )
     embed.set_thumbnail(
