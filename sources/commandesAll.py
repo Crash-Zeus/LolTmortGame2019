@@ -14,7 +14,7 @@ from discord.voice_client import VoiceClient
 from sources.ytbMusic import YTDLSource
 
 client = discord.Client()
-TOKEN = "NjI1NjIzOTU0NDQyMTU4MDkw.XZHKxw.U8DmvyFvfiEwuBemUee45vWELnw"
+TOKEN = ""
 bot = commands.Bot(command_prefix='²')
 fichier = 'score.json'
 
